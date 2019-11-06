@@ -2,7 +2,9 @@ install:
 	npm install
 
 start:
-	npx babel-node src/bin/gendiff.js
+	make build
+	make lint
+	make test
 
 test:
 	npm test

@@ -1,14 +1,5 @@
 import { has } from 'lodash';
-import { resolve } from 'path';
-import { readFileSync } from 'fs';
-
-const readFromFiles = ([pathToBefore, pathToAfter]) => [
-  readFileSync(resolve(pathToBefore)), readFileSync(resolve(pathToAfter)),
-];
-
-const parseContent = ([beforeContent, afterContent]) => [
-  JSON.parse(beforeContent), JSON.parse(afterContent),
-];
+import getFileContent from './parsers';
 
 const getUniqKeys = (beforeKeys, afterKeys) => {
   const unionOfKeys = beforeKeys.concat(afterKeys);
@@ -17,27 +8,25 @@ const getUniqKeys = (beforeKeys, afterKeys) => {
 };
 
 export default (pathToBefore, pathToAfter) => {
-  const reading = readFromFiles([pathToBefore, pathToAfter]);
-  const parsing = parseContent(reading);
-  const [beforeInJson, afterInJson] = parsing;
-  const keys = getUniqKeys(Object.keys(beforeInJson), Object.keys(afterInJson));
+  const [beforeContent, afterContent] = [getFileContent(pathToBefore), getFileContent(pathToAfter)];
+  const keys = getUniqKeys(Object.keys(beforeContent), Object.keys(afterContent));
 
   const diff = keys.reduce((acc, key) => {
     const mainAcc = [...acc];
 
-    if (has(afterInJson, key)) {
-      if (has(beforeInJson, key)) {
-        if (beforeInJson[key] === afterInJson[key]) {
-          mainAcc.push(`   ${key}: ${beforeInJson[key]}\n`);
+    if (has(afterContent, key)) {
+      if (has(beforeContent, key)) {
+        if (beforeContent[key] === afterContent[key]) {
+          mainAcc.push(`    ${key}: ${afterContent[key]}\n`);
         } else {
-          mainAcc.push(` - ${key}: ${beforeInJson[key]}\n`);
-          mainAcc.push(` + ${key}: ${afterInJson[key]}\n`);
+          mainAcc.push(`  - ${key}: ${beforeContent[key]}\n`);
+          mainAcc.push(`  + ${key}: ${afterContent[key]}\n`);
         }
       } else {
-        mainAcc.push(` + ${key}: ${afterInJson[key]}\n`);
+        mainAcc.push(`  + ${key}: ${afterContent[key]}\n`);
       }
     } else {
-      mainAcc.push(` - ${key}: ${beforeInJson[key]}\n`);
+      mainAcc.push(`  - ${key}: ${beforeContent[key]}\n`);
     }
     return mainAcc;
   }, []);

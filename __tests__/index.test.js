@@ -9,3 +9,11 @@ test('test for json content', () => {
 
   expect(genDiff(pathToBefore, pathToAfter)).toBe(result);
 });
+
+test('test for yaml content', () => {
+  const pathToBefore = path.join(__dirname, '/__fixtures__/configs/', 'before.yaml');
+  const pathToAfter = path.join(__dirname, '/__fixtures__/configs/', 'after.yaml');
+  const result = readFileSync(path.join(__dirname, '/__fixtures__/result/', 'result.txt'), 'utf8');
+
+  expect(genDiff(pathToBefore, pathToAfter)).toBe(result);
+});
