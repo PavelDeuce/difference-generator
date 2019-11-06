@@ -4,6 +4,9 @@ install:
 start:
 	npx babel-node src/bin/
 
+test:
+	npm test
+
 publish:
 	npx publish --dry -run
 

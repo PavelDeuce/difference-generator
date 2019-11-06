@@ -15,7 +15,7 @@
   "main": "index.js",
   "scripts": {
     "babel-node": "babel-node",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"
   },
@@ -40,6 +40,10 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.2",
     "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
   }
 }
