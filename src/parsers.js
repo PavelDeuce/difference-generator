@@ -1,10 +1,12 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
+import ini from 'ini';
 
 const parsers = {
   '.json': (parseContent) => JSON.parse(parseContent),
   '.yaml': (parseContent) => yaml.safeLoad(parseContent),
+  '.ini': (parseContent) => ini.parse(parseContent),
 };
 
 const getFileContent = (pathToFile) => {

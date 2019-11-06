@@ -17,3 +17,11 @@ test('test for yaml content', () => {
 
   expect(genDiff(pathToBefore, pathToAfter)).toBe(result);
 });
+
+test('test for ini content', () => {
+  const pathToBefore = path.join(__dirname, '/__fixtures__/configs/', 'before.ini');
+  const pathToAfter = path.join(__dirname, '/__fixtures__/configs/', 'after.ini');
+  const result = readFileSync(path.join(__dirname, '/__fixtures__/result/', 'result.txt'), 'utf8');
+
+  expect(genDiff(pathToBefore, pathToAfter)).toBe(result);
+});
