@@ -7,6 +7,9 @@ start:
 test:
 	npm test
 
+test-coverage:
+	npm test -- --coverage
+
 publish:
 	npx publish --dry -run
 
