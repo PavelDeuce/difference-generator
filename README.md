@@ -16,6 +16,8 @@ Compares two configuration files and shows a difference.
 
 `$ gendiff <file_1> <file_2>`
 
-### How to compare flat files (json, yaml, ini)
+### How to compare flat files and nested files (json, yaml, ini)
 
 [![asciicast](https://asciinema.org/a/PwsfqzqUGOEgTfRJnu9YXeQ6j.svg)](https://asciinema.org/a/PwsfqzqUGOEgTfRJnu9YXeQ6j)
+
+[![asciicast](https://asciinema.org/a/DHQSMNZC2hqJOFJnLZge7TSSL.svg)](https://asciinema.org/a/DHQSMNZC2hqJOFJnLZge7TSSL)
