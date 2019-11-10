@@ -8,11 +8,11 @@
 
 Compares two configuration files and shows a difference.
 
-### Gendiff install
+### Install
 
 `$ npm install -g deuce-gendiff`
 
-### Gendiff launch
+### Launch
 
 `$ gendiff <file_1> <file_2>`
 
