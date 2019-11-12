@@ -10,7 +10,7 @@ const printDiff = () => {
     .option('-f, --format [type]', 'Output format')
     .arguments('<firstConfig> <secondConfig>')
     .action((firstConfig, secondConfig) => {
-      const diff = genDiff(firstConfig, secondConfig);
+      const diff = genDiff(firstConfig, secondConfig, commander.format);
       console.log(diff);
     })
     .parse(process.argv);

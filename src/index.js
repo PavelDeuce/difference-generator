@@ -1,5 +1,6 @@
 import { has } from 'lodash';
 import getFileContent from './parsers';
+import render from './formatters/index';
 
 const getUniqKeys = (beforeKeys, afterKeys) => {
   const unionOfKeys = beforeKeys.concat(afterKeys);
@@ -35,45 +36,14 @@ const buildAst = ([beforeContent, afterContent], depth = 1) => {
       });
     }
 
-
     return newAcc;
   }, []);
 
   return astTree;
 };
 
-const stringify = (value, depth = 0) => {
-  const indent = '    '.repeat(depth);
-  if (typeof value === 'object') {
-    const result = Object.keys(value).reduce((acc, item) => `${acc}${indent}    ${item}: ${value[item]}\n`, '');
-    return `{\n${result}${indent}}`;
-  }
-  return value;
-};
-
-const render = (ast, depth = 0) => {
-  const indent = '    '.repeat(depth);
-  const diff = ast.reduce((acc, item) => {
-    switch (item.state) {
-      case 'equal':
-        return `${acc}\n${indent}    ${item.name}: ${stringify(item.value, depth + 1)}`;
-      case 'deleted':
-        return `${acc}\n${indent}  - ${item.name}: ${stringify(item.previousValue, depth + 1)}`;
-      case 'added':
-        return `${acc}\n${indent}  + ${item.name}: ${stringify(item.nextValue, depth + 1)}`;
-      case 'edited':
-        return `${acc}\n${indent}  - ${item.name}: ${stringify(item.previousValue, depth + 1)}\n${indent}  + ${item.name}: ${stringify(item.nextValue, depth + 1)}`;
-      case 'children':
-        return `${acc}\n${indent}    ${item.name}: ${render(item.value, depth + 1)}`;
-      default:
-        return acc;
-    }
-  }, '');
-  return `{${diff}\n${indent}}`;
-};
-
-export default (pathToBefore, pathToAfter) => {
+export default (pathToBefore, pathToAfter, format = 'nested') => {
   const [beforeContent, afterContent] = [getFileContent(pathToBefore), getFileContent(pathToAfter)];
   const astTree = buildAst([beforeContent, afterContent]);
-  return render(astTree);
+  return render(astTree, format);
 };
