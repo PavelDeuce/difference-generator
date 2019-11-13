@@ -17,10 +17,8 @@ const createNode = (state, name, previousValue, nextValue) => ({
 
 const buildAst = ([beforeContent, afterContent], depth = 1) => {
   const keys = getUniqKeys(Object.keys(beforeContent), Object.keys(afterContent));
-
   const astTree = keys.reduce((acc, key) => {
     const newAcc = [...acc];
-
     if (typeof beforeContent[key] === 'object' && typeof afterContent[key] === 'object') {
       newAcc.push(
         createNode('children', key, buildAst([beforeContent[key], afterContent[key]], depth + 1), null),
@@ -42,7 +40,6 @@ const buildAst = ([beforeContent, afterContent], depth = 1) => {
         createNode('edited', key, beforeContent[key], afterContent[key]),
       );
     }
-
     return newAcc;
   }, []);
 
