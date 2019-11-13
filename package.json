@@ -1,18 +1,21 @@
 {
   "name": "deuce-gendiff",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "",
   "keywords": [
-    "",
-    "",
-    "",
-    "",
-    ""
+    "gendiff",
+    "configs",
+    "compare",
+    "difference",
+    "deuce"
   ],
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
   },
   "main": "index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "babel-node": "babel-node",
     "test": "jest",
@@ -23,7 +26,7 @@
     "type": "git",
     "url": "git+https://github.com/PavelDeuce/frontend-project-lvl2.git"
   },
-  "author": "",
+  "author": "Pavel Deryugin (PavelDeuce)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/PavelDeuce/frontend-project-lvl2/issues"
