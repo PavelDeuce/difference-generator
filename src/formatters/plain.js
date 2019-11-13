@@ -17,7 +17,7 @@ const plainRender = (ast, parents = []) => {
       case 'edited':
         return `${acc}Property '${newName}' was updated. From ${stringify(item.previousValue)} to ${stringify(item.nextValue)}\n`;
       case 'children':
-        return `${acc}${plainRender(item.value, [...parents, item.name])}`;
+        return `${acc}${plainRender(item.previousValue, [...parents, item.name])}`;
       default:
         return acc;
     }

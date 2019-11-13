@@ -12,6 +12,8 @@ describe('Compares two configuration files', () => {
     ${'ini'}     |    ${'nested'}
     ${'yaml'}    |    ${'plain'}
     ${'yaml'}    |    ${'nested'}
+    ${'ini'}     |    ${'json'}
+    ${'ini'}     |    ${'plain'}
 `('gendiff before.$extname after.$extname --format $format',
 
 
