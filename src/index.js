@@ -20,29 +20,18 @@ const buildAst = ([beforeContent, afterContent], depth = 1) => {
   const astTree = keys.reduce((acc, key) => {
     const newAcc = [...acc];
     if (typeof beforeContent[key] === 'object' && typeof afterContent[key] === 'object') {
-      newAcc.push(
-        createNode('children', key, buildAst([beforeContent[key], afterContent[key]], depth + 1), null),
-      );
+      newAcc.push(createNode('children', key, buildAst([beforeContent[key], afterContent[key]], depth + 1), null));
     } else if ((has(beforeContent, key)) && (!has(afterContent, key))) {
-      newAcc.push(
-        createNode('deleted', key, beforeContent[key], null),
-      );
+      newAcc.push(createNode('deleted', key, beforeContent[key], null));
     } else if (!has(beforeContent, key) && has(afterContent, key)) {
-      newAcc.push(
-        createNode('added', key, null, afterContent[key]),
-      );
+      newAcc.push(createNode('added', key, null, afterContent[key]));
     } else if (beforeContent[key] === afterContent[key]) {
-      newAcc.push(
-        createNode('equal', key, beforeContent[key], afterContent[key]),
-      );
+      newAcc.push(createNode('equal', key, beforeContent[key], afterContent[key]));
     } else if (beforeContent[key] !== afterContent[key]) {
-      newAcc.push(
-        createNode('edited', key, beforeContent[key], afterContent[key]),
-      );
+      newAcc.push(createNode('edited', key, beforeContent[key], afterContent[key]));
     }
     return newAcc;
   }, []);
-
   return astTree;
 };
 
