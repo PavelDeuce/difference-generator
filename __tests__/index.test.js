@@ -6,14 +6,7 @@ describe('Compares two configuration files', () => {
   test.each`
    extname       |   format
     ${'json'}    |    ${'nested'}
-    ${'json'}    |    ${'plain'}
-    ${'json'}    |    ${'json'}
-    ${'ini'}     |    ${'json'}
-    ${'ini'}     |    ${'nested'}
-    ${'yaml'}    |    ${'plain'}
-    ${'yaml'}    |    ${'nested'}
-    ${'ini'}     |    ${'json'}
-    ${'ini'}     |    ${'plain'}
+
 `('gendiff before.$extname after.$extname --format $format',
 
 

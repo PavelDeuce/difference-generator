@@ -1,7 +1,12 @@
 const stringify = (value, depth = 0) => {
   const indent = '    '.repeat(depth);
   if (typeof value === 'object') {
-    const result = Object.keys(value).reduce((acc, item) => `${acc}${indent}    ${item}: ${value[item]}\n`, '');
+    const result = Object.keys(value).reduce((acc, item) => {
+      if (typeof value[item] === 'object') {
+        return `${indent}   ${item}: ${stringify(value[item], depth + 1)}\n`;
+      }
+      return `${acc}${indent}    ${item}: ${value[item]}\n`;
+    }, '');
     return `{\n${result}${indent}}`;
   }
   return value;

@@ -15,12 +15,12 @@ const createNode = (state, name, previousValue, nextValue) => ({
   nextValue,
 });
 
-const buildAst = ([beforeContent, afterContent], depth = 1) => {
+const buildAst = ([beforeContent, afterContent]) => {
   const keys = getUniqKeys(Object.keys(beforeContent), Object.keys(afterContent));
   const astTree = keys.reduce((acc, key) => {
     const newAcc = [...acc];
     if (typeof beforeContent[key] === 'object' && typeof afterContent[key] === 'object') {
-      newAcc.push(createNode('children', key, buildAst([beforeContent[key], afterContent[key]], depth + 1), null));
+      newAcc.push(createNode('children', key, buildAst([beforeContent[key], afterContent[key]]), null));
     } else if ((has(beforeContent, key)) && (!has(afterContent, key))) {
       newAcc.push(createNode('deleted', key, beforeContent[key], null));
     } else if (!has(beforeContent, key) && has(afterContent, key)) {
