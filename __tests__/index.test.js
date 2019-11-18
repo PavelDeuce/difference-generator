@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import gendiff from '../src/index';
+import gendiff from '../src';
 
 describe('Compares two configuration files', () => {
   test.each`

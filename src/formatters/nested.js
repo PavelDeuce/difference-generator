@@ -1,36 +1,36 @@
 const stringify = (value, depth = 0) => {
-  const indent = '    '.repeat(depth);
-  if (typeof value === 'object') {
-    const result = Object.keys(value).reduce((acc, item) => {
-      if (typeof value[item] === 'object') {
-        return `${indent}   ${item}: ${stringify(value[item], depth + 1)}\n`;
-      }
-      return `${acc}${indent}    ${item}: ${value[item]}\n`;
-    }, '');
-    return `{\n${result}${indent}}`;
+  if (typeof value !== 'object') {
+    return value;
   }
-  return value;
+  const indent = '    '.repeat(depth);
+  const result = Object.keys(value).map((item) => {
+    if (typeof value[item] === 'object') {
+      return `${indent}   ${item}: ${stringify(value[item], depth + 1)}\n`;
+    }
+    return `${indent}    ${item}: ${value[item]}\n`;
+  }).join('');
+  return `{\n${result}${indent}}`;
 };
 
 const nestedRender = (ast, depth = 0) => {
   const indent = '    '.repeat(depth);
-  const diff = ast.reduce((acc, item) => {
-    const begining = (char) => `${acc}\n${indent}  ${char} ${item.name}: `;
+  const diff = ast.map((item) => {
+    const begining = (char) => `\n${indent}  ${char} ${item.name}: `;
     switch (item.state) {
-      case 'equal':
-        return `${begining(' ')}${stringify(item.previousValue, depth + 1)}`;
       case 'deleted':
         return `${begining('-')}${stringify(item.previousValue, depth + 1)}`;
       case 'added':
         return `${begining('+')}${stringify(item.nextValue, depth + 1)}`;
+      case 'equal':
+        return `${begining(' ')}${stringify(item.previousValue, depth + 1)}`;
       case 'edited':
-        return `${begining('-')}${stringify(item.previousValue, depth + 1)}\n${indent}  + ${item.name}: ${stringify(item.nextValue, depth + 1)}`;
+        return `${begining('-')}${stringify(item.previousValue, depth + 1)}${begining('+')}${stringify(item.nextValue, depth + 1)}`;
       case 'children':
         return `${begining(' ')}${nestedRender(item.previousValue, depth + 1)}`;
       default:
-        return acc;
+        throw new Error('Parse error');
     }
-  }, '');
+  }).join('');
 
   return `{${diff}\n${indent}}`;
 };

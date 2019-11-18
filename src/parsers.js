@@ -1,19 +1,15 @@
-import { readFileSync } from 'fs';
-import path from 'path';
 import yaml from 'js-yaml';
 import ini from 'ini';
 
 const parsers = {
-  '.json': (parseContent) => JSON.parse(parseContent),
-  '.yaml': (parseContent) => yaml.safeLoad(parseContent),
-  '.ini': (parseContent) => ini.parse(parseContent),
+  '.json': JSON.parse,
+  '.yaml': yaml.safeLoad,
+  '.ini': ini.parse,
 };
 
-const getFileContent = (pathToFile) => {
-  const content = readFileSync(pathToFile, 'utf-8');
-  const extname = path.extname(pathToFile);
-
-  return parsers[extname](content);
+const getFileContent = (data, extname) => {
+  const parse = parsers[extname];
+  return parse(data);
 };
 
 export default getFileContent;
