@@ -13,7 +13,7 @@ const createNode = (state, name, previousValue, nextValue) => ({
 
 const buildAst = (beforeContent, afterContent) => {
   const keys = _.union(_.keys(beforeContent), _.keys(afterContent));
-  const astTree = keys.map((key) => {
+  return keys.map((key) => {
     const isKeyInBefore = _.has(beforeContent, key);
     const isKeyInAfter = _.has(afterContent, key);
     if (isKeyInBefore && isKeyInAfter) {
@@ -30,7 +30,6 @@ const buildAst = (beforeContent, afterContent) => {
     }
     return createNode('deleted', key, beforeContent[key], null);
   });
-  return astTree;
 };
 
 export default (pathToBefore, pathToAfter, format = 'nested') => {
