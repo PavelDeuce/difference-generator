@@ -7,9 +7,7 @@ const parsers = {
   '.ini': ini.parse,
 };
 
-const getFileContent = (data, extname) => {
-  const parse = parsers[extname];
+export default (data, format) => {
+  const parse = parsers[format];
   return parse(data);
 };
-
-export default getFileContent;

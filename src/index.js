@@ -1,8 +1,8 @@
 import { _ } from 'lodash';
 import { readFileSync } from 'fs';
 import path from 'path';
-import getFileContent from './parsers';
-import render from './formatters/index';
+import parse from './parsers';
+import render from './formatters';
 
 const createNode = (state, name, previousValue, nextValue) => ({
   state,
@@ -18,7 +18,7 @@ const buildAst = (beforeContent, afterContent) => {
     const isKeyInAfter = _.has(afterContent, key);
     if (isKeyInBefore && isKeyInAfter) {
       if (typeof beforeContent[key] === 'object' && typeof afterContent[key] === 'object') {
-        return createNode('children', key, buildAst(beforeContent[key], afterContent[key]), null);
+        return createNode('nested', key, buildAst(beforeContent[key], afterContent[key]), null);
       }
       if (beforeContent[key] === afterContent[key]) {
         return createNode('equal', key, beforeContent[key], afterContent[key]);
@@ -35,11 +35,11 @@ const buildAst = (beforeContent, afterContent) => {
 export default (pathToBefore, pathToAfter, format = 'nested') => {
   const dataBefore = readFileSync(pathToBefore, 'utf-8');
   const dataAfter = readFileSync(pathToAfter, 'utf-8');
-  const extnameBefore = path.extname(pathToBefore);
-  const extnameAfter = path.extname(pathToAfter);
+  const formatBefore = path.extname(pathToBefore);
+  const formatAfter = path.extname(pathToAfter);
 
-  const beforeContent = getFileContent(dataBefore, extnameBefore);
-  const afterContent = getFileContent(dataAfter, extnameAfter);
+  const beforeContent = parse(dataBefore, formatBefore);
+  const afterContent = parse(dataAfter, formatAfter);
   const astTree = buildAst(beforeContent, afterContent);
 
   return render(astTree, format);
