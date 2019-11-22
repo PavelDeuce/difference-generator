@@ -23,7 +23,7 @@ const plainRender = (ast, parents = []) => {
       default:
         throw new Error(`Parse error. Unknown state: ${item.state}`);
     }
-  }).filter((str) => str !== null).join('\n');
+  }).filter((str) => str).join('\n');
 
   return result;
 };
