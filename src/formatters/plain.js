@@ -19,7 +19,7 @@ const plainRender = (ast, parents = []) => {
       case 'edited':
         return `Property '${newName}' was updated. From ${stringify(item.previousValue)} to ${stringify(item.nextValue)}`;
       case 'nested':
-        return `${plainRender(item.previousValue, [...parents, item.name])}`;
+        return `${plainRender(item.children, [...parents, item.name])}`;
       default:
         throw new Error(`Parse error. Unknown state: ${item.state}`);
     }

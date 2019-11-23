@@ -4,11 +4,12 @@ import path from 'path';
 import parse from './parsers';
 import render from './formatters';
 
-const createNode = (state, name, previousValue, nextValue) => ({
+const createNode = (state, name, previousValue, nextValue, children) => ({
   state,
   name,
   previousValue,
   nextValue,
+  children,
 });
 
 const buildAst = (beforeContent, afterContent) => {
@@ -18,25 +19,25 @@ const buildAst = (beforeContent, afterContent) => {
     const isKeyInAfter = _.has(afterContent, key);
     if (isKeyInBefore && isKeyInAfter) {
       if (typeof beforeContent[key] === 'object' && typeof afterContent[key] === 'object') {
-        return createNode('nested', key, buildAst(beforeContent[key], afterContent[key]), null);
+        return createNode('nested', key, null, null, buildAst(beforeContent[key], afterContent[key]));
       }
       if (beforeContent[key] === afterContent[key]) {
-        return createNode('equal', key, beforeContent[key], afterContent[key]);
+        return createNode('equal', key, beforeContent[key], afterContent[key], null);
       }
-      return createNode('edited', key, beforeContent[key], afterContent[key]);
+      return createNode('edited', key, beforeContent[key], afterContent[key], null);
     }
     if (isKeyInAfter) {
-      return createNode('added', key, null, afterContent[key]);
+      return createNode('added', key, null, afterContent[key], null);
     }
-    return createNode('deleted', key, beforeContent[key], null);
+    return createNode('deleted', key, beforeContent[key], null, null);
   });
 };
 
 export default (pathToBefore, pathToAfter, format = 'nested') => {
   const dataBefore = readFileSync(pathToBefore, 'utf-8');
   const dataAfter = readFileSync(pathToAfter, 'utf-8');
-  const formatBefore = path.extname(pathToBefore);
-  const formatAfter = path.extname(pathToAfter);
+  const formatBefore = path.extname(pathToBefore).slice(1);
+  const formatAfter = path.extname(pathToAfter).slice(1);
 
   const beforeContent = parse(dataBefore, formatBefore);
   const afterContent = parse(dataAfter, formatAfter);

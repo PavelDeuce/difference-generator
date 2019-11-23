@@ -26,7 +26,7 @@ const nestedRender = (ast, depth = 0) => {
       case 'edited':
         return `${begining('-')}${stringify(item.previousValue, depth + 1)}\n${begining('+')}${stringify(item.nextValue, depth + 1)}`;
       case 'nested':
-        return `${begining(' ')}${nestedRender(item.previousValue, depth + 1)}`;
+        return `${begining(' ')}${nestedRender(item.children, depth + 1)}`;
       default:
         throw new Error(`Parse error. Unknown state: ${item.state}`);
     }
