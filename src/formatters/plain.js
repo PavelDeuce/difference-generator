@@ -6,8 +6,8 @@ const stringify = (item) => {
   return `'${item}'`;
 };
 
-const plainRender = (ast, parents = []) => {
-  const result = ast.map((item) => {
+const plainRender = (ast, parents = []) => (
+  ast.map((item) => {
     const newName = [...parents, item.name].join('.');
     switch (item.state) {
       case 'deleted':
@@ -23,9 +23,6 @@ const plainRender = (ast, parents = []) => {
       default:
         throw new Error(`Parse error. Unknown state: ${item.state}`);
     }
-  }).filter((str) => str).join('\n');
-
-  return result;
-};
+  }).filter((str) => str).join('\n'));
 
 export default plainRender;

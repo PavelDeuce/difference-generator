@@ -1,4 +1,4 @@
-# Gendiff
+# difference-generator
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/56acf43ebb8c8d5c78f2/maintainability)](https://codeclimate.com/github/PavelDeuce/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/56acf43ebb8c8d5c78f2/test_coverage)](https://codeclimate.com/github/PavelDeuce/frontend-project-lvl2/test_coverage)
@@ -6,7 +6,7 @@
 
 ## Description
 
-Compares two configuration files and shows a difference.
+Compares two configurations files and shows a difference.
 
 Install
 
