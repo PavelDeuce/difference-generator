@@ -1,6 +1,7 @@
 import { _ } from 'lodash';
 import { readFileSync } from 'fs';
 import path from 'path';
+
 import parse from './parsers';
 import render from './formatters';
 
@@ -19,7 +20,13 @@ const buildAst = (beforeContent, afterContent) => {
     const isKeyInAfter = _.has(afterContent, key);
     if (isKeyInBefore && isKeyInAfter) {
       if (typeof beforeContent[key] === 'object' && typeof afterContent[key] === 'object') {
-        return createNode('nested', key, null, null, buildAst(beforeContent[key], afterContent[key]));
+        return createNode(
+          'nested',
+          key,
+          null,
+          null,
+          buildAst(beforeContent[key], afterContent[key])
+        );
       }
       if (beforeContent[key] === afterContent[key]) {
         return createNode('equal', key, beforeContent[key], afterContent[key], null);
