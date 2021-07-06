@@ -1,27 +1,26 @@
-const stringify = (item) => {
-  if (typeof item === 'object') {
-    return '[complex value]';
-  }
+import _ from 'lodash';
 
-  return `'${item}'`;
-};
+import { diffsMapping } from '../utils';
+
+const stringify = (item) => (_.isObject(item) ? '[complex value]' : `'${item}'`);
 
 const plainRender = (ast, parents = []) =>
   ast
     .map((item) => {
       const newName = [...parents, item.name].join('.');
+      const beginning = `Property '${newName}' was`;
       switch (item.state) {
-        case 'deleted':
-          return `Property '${newName}' was removed`;
-        case 'added':
-          return `Property '${newName}' was added with value: ${stringify(item.nextValue)}`;
-        case 'equal':
+        case diffsMapping.deleted:
+          return `${beginning} removed`;
+        case diffsMapping.added:
+          return `${beginning} added with value: ${stringify(item.nextValue)}`;
+        case diffsMapping.equal:
           return null;
-        case 'edited':
-          return `Property '${newName}' was updated. From ${stringify(
-            item.previousValue
-          )} to ${stringify(item.nextValue)}`;
-        case 'nested':
+        case diffsMapping.edited:
+          return `${beginning} updated. From ${stringify(item.previousValue)} to ${stringify(
+            item.nextValue
+          )}`;
+        case diffsMapping.nested:
           return `${plainRender(item.children, [...parents, item.name])}`;
         default:
           throw new Error(`Parse error. Unknown state: ${item.state}`);

@@ -1,7 +1,8 @@
-import { _ } from 'lodash';
+import _ from 'lodash';
 import { readFileSync } from 'fs';
 import path from 'path';
 
+import { diffsMapping, formatMapping } from './utils';
 import parse from './parsers';
 import render from './formatters';
 
@@ -19,9 +20,9 @@ const buildAst = (beforeContent, afterContent) => {
     const isKeyInBefore = _.has(beforeContent, key);
     const isKeyInAfter = _.has(afterContent, key);
     if (isKeyInBefore && isKeyInAfter) {
-      if (typeof beforeContent[key] === 'object' && typeof afterContent[key] === 'object') {
+      if (_.isObject(beforeContent[key]) && _.isObject(afterContent[key])) {
         return createNode(
-          'nested',
+          diffsMapping.nested,
           key,
           null,
           null,
@@ -29,18 +30,18 @@ const buildAst = (beforeContent, afterContent) => {
         );
       }
       if (beforeContent[key] === afterContent[key]) {
-        return createNode('equal', key, beforeContent[key], afterContent[key], null);
+        return createNode(diffsMapping.equal, key, beforeContent[key], afterContent[key], null);
       }
-      return createNode('edited', key, beforeContent[key], afterContent[key], null);
+      return createNode(diffsMapping.edited, key, beforeContent[key], afterContent[key], null);
     }
     if (isKeyInAfter) {
-      return createNode('added', key, null, afterContent[key], null);
+      return createNode(diffsMapping.added, key, null, afterContent[key], null);
     }
-    return createNode('deleted', key, beforeContent[key], null, null);
+    return createNode(diffsMapping.deleted, key, beforeContent[key], null, null);
   });
 };
 
-export default (pathToBefore, pathToAfter, format = 'nested') => {
+export default (pathToBefore, pathToAfter, format = formatMapping.nested) => {
   const dataBefore = readFileSync(pathToBefore, 'utf-8');
   const dataAfter = readFileSync(pathToAfter, 'utf-8');
   const formatBefore = path.extname(pathToBefore).slice(1);
