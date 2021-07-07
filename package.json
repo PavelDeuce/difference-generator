@@ -1,6 +1,6 @@
 {
   "name": "deuce-gendiff",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "CLI application, which compares two configurations files and shows a difference",
   "keywords": [
     "gendiff",
