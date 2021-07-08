@@ -8,24 +8,20 @@
 
 Compares two configurations files and shows a difference.
 
-Install
+### Install
 
 `$ npm install -g deuce-gendiff`
 
-Launch
+### Launch
 
 `$ gendiff <file_1> <file_2>`
 
-### How to compare flat files and nested files (json, yaml, ini)
+### How to compare flat files and nested files (json, yaml, ini):
 
 [![asciicast](https://asciinema.org/a/PwsfqzqUGOEgTfRJnu9YXeQ6j.svg)](https://asciinema.org/a/PwsfqzqUGOEgTfRJnu9YXeQ6j)
 
 [![asciicast](https://asciinema.org/a/DHQSMNZC2hqJOFJnLZge7TSSL.svg)](https://asciinema.org/a/DHQSMNZC2hqJOFJnLZge7TSSL)
 
-### How to compare files with plain output
+### How to compare files with plain output:
 
 [![asciicast](https://asciinema.org/a/mP0KnKch2Fy51zMIYJksaHiHo.svg)](https://asciinema.org/a/mP0KnKch2Fy51zMIYJksaHiHo)
-
-### Hot to compare files with json output
-
-[![asciicast](https://asciinema.org/a/xVmZVvzyUfknxXkO6CT8N1YJt.svg)](https://asciinema.org/a/xVmZVvzyUfknxXkO6CT8N1YJt)
